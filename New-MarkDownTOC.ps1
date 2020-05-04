@@ -21,13 +21,14 @@
      Created on: 28 Apr 2020
 #>
 param (
-  [Parameter(Mandatory=$true)]
-  [string]$MarkDownDoc
+  [string]$MarkDownDoc = (Get-Clipboard)
 )
 $MarkDownArray = $MarkDownDoc -split "`n"
 $Headers = $MarkDownArray | Where-Object {$_ -match '##'}
 Write-Output "# Table Of Contents" | Set-Clipboard
 $Headers.trim('## ') -replace '(.+)','[$1](#$1)<BR>' -replace '(?<=\(\#.*)\s','-' | Set-Clipboard -Append
+Write-Output '[Lab Issues](#Lab-Issues)<BR>' | Set-Clipboard -Append
 $MarkDownDoc | Set-Clipboard -Append
+Write-Output '## Lab Issues' | Set-Clipboard -Append
 Write-Host -ForegroundColor Cyan "The Table of contents is in the Paste buffer now"
 
